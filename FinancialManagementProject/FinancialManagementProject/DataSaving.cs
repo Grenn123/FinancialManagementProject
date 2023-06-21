@@ -12,6 +12,8 @@ namespace FinancialManagementProject
         internal string userName { get; private set; } = "123";
         internal string userPassword { get; private set; } = "123";
 
+        internal int quantityOfPlans { get; set; } = 0;
 
+        internal Dictionary<string, string> userLoginAndPassword = new Dictionary<string, string>();
     }
 }

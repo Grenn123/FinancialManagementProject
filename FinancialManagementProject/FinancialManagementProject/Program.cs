@@ -13,7 +13,7 @@ namespace FinancialManagementProject
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Добрый день.");
+            Console.WriteLine($"Добрый день.\n");
 
             DataLoading();
         }
@@ -23,7 +23,19 @@ namespace FinancialManagementProject
         {
             DataSaving data = new DataSaving();
 
-            StartVerification(data.userName, data.userPassword);
+            Console.WriteLine("У вас уже есть учетная запись? Ответьте да или нет");
+
+            string? answer = Console.ReadLine();             
+
+            if (answer!.ToLower().Contains('д'))
+            {
+                StartVerification(data.userName, data.userPassword);
+            }
+            else
+            {
+                RegistrationMenu.RegistryOfNewUser();
+            }
+
         }
 
         //Запуск процедуры верификации
@@ -42,5 +54,7 @@ namespace FinancialManagementProject
                 Console.WriteLine("Доступ закрыт");
             }
         }
+
+        
     }
 }
