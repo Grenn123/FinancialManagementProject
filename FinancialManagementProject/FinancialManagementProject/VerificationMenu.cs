@@ -32,7 +32,6 @@ namespace FinancialManagementProject
         }
 
         //Цикл итераций верификации
-        private static bool CheckVerificationStage(string userName, string userPassword)
         {
             while (verificationStage < 3)
             {
