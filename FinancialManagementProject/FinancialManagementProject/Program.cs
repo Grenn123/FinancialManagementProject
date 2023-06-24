@@ -8,53 +8,47 @@ namespace FinancialManagementProject
 {
     internal class Program
     {
-        internal static bool accessIsAllowed;
 
 
         static void Main(string[] args)
         {
+            bool accessIsAllowed = false;
+
             Console.WriteLine($"Добрый день.\n");
 
-            DataLoading();
+            //Запуск верификации или регистрации
+            VerificationOrRegistration(accessIsAllowed);
+
+            //Открытие списка всех имеющихся у пользователя планов
+
+            if (DataSaving.quantityOfPlans == 0)
+            {
+                PlanCreationMenu.PlanCreation(DataSaving.userLogin);
+            }
+            else
+            {
+                //Открывает меню управления планами
+            }
         }
 
         //Получение данных
-        private static void DataLoading()
+        private static void VerificationOrRegistration(bool accessIsAllowed)
         {
-            DataSaving data = new DataSaving();
-
             Console.WriteLine("У вас уже есть учетная запись? Ответьте да или нет");
 
-            string? answer = Console.ReadLine();             
+            string? answer = Console.ReadLine();
 
             if (answer!.ToLower().Contains('д'))
             {
-                StartVerification(data.userName, data.userPassword);
+                //Тут будет запуск загрузки данных из файла
+
+
+                VerificationMenu.StartVerification(out accessIsAllowed);
             }
             else
             {
                 RegistrationMenu.RegistryOfNewUser();
             }
-
         }
-
-        //Запуск процедуры верификации
-        private static void StartVerification(string userName, string userPassword)
-        {
-            VerificationMenu verification = new VerificationMenu();
-
-            verification.AccessVerification(userName, userPassword, out accessIsAllowed);
-
-            if (accessIsAllowed)
-            {
-                Console.WriteLine("Ура! У вас получилось!");
-            }
-            else
-            {
-                Console.WriteLine("Доступ закрыт");
-            }
-        }
-
-        
     }
 }

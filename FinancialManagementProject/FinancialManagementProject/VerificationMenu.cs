@@ -24,35 +24,29 @@ namespace FinancialManagementProject
         private static bool accessCheck;
 
         //Запус процедуры верификации
-        internal bool AccessVerification(string userName, string userPassword, out bool accessIsAllowed)
-        {
-            CheckVerificationStage(userName, userPassword);
-
-            return accessIsAllowed = accessCheck;
-        }
-
-        //Цикл итераций верификации
+        internal static bool StartVerification(out bool accessIsAllowed)
         {
             while (verificationStage < 3)
             {
                 switch (verificationStage)
                 {
                     case 1:
-                        stageOfVerification = userName;
+                        stageOfVerification = DataSaving.userLogin;
                         InputCheck(stageOfVerification);
                         break;
 
                     case 2:
-                        stageOfVerification = userPassword;
+                        stageOfVerification = DataSaving.userPassword;
                         InputCheck(stageOfVerification);
                         break;
                 }
             }
 
             return verificationStage == 3
-                            ? accessCheck = true
-                            : accessCheck = false;
+                            ? accessIsAllowed = true
+                            : accessIsAllowed = false;
         }
+
 
         //Процесс сравнения значений
         private static int InputCheck(string stageOfVerification)
