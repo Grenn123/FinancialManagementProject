@@ -9,27 +9,25 @@ namespace FinancialManagementProject
 {
     internal class ErrorReports
     {
+        private List<string> errors = new List<string>();
 
-        internal void SendingErrorReport(string[,] message)
+        internal void SendingErrorReport(string message)
         {
-            //Зарисовка на будущее.
-            int numberOfLines = 1;
-            int numberOfColumns = 3;
+            errors.Add(message);
+        }
 
-            string[,] unprocessedReports = new string[numberOfLines, numberOfColumns];
-            unprocessedReports = message;
-
+        internal void PrintErrorsReport()
+        {
             Console.WriteLine("Хотите посмотреть отчет об ошибке? Ответьте да или нет");
 
             string? answer = Console.ReadLine();
 
             if (answer!.ToLower().Contains('д'))
             {
-                foreach (string line in unprocessedReports)
+                foreach (string line in errors)
                 {
                     Console.WriteLine(line);
                 }
-                
             }
         }
     }

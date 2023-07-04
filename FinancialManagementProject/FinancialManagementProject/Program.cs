@@ -8,31 +8,42 @@ namespace FinancialManagementProject
 {
     internal class Program
     {
+        internal static DataOperations dataOperations = new DataOperations();
+        internal static VerificationMenu verificationMenu = new VerificationMenu();
+        internal static RegistrationMenu registrationMenu = new RegistrationMenu();
+        internal static PlanCreationMenu planCreationMenu = new PlanCreationMenu();
 
+        private static bool accessIsAllowed;
 
         static void Main(string[] args)
         {
-            bool accessIsAllowed = false;
-
             Console.WriteLine($"Добрый день.\n");
 
             //Запуск верификации или регистрации
-            VerificationOrRegistration(accessIsAllowed);
+            VerificationOrRegistration();
 
-            //Открытие списка всех имеющихся у пользователя планов
 
-            if (DataSaving.quantityOfPlans == 0)
+            if (accessIsAllowed)
             {
-                PlanCreationMenu.PlanCreation(DataSaving.userLogin);
+                if (DataOperations.QuantityOfPlans == 0)
+                {
+                    planCreationMenu.PlanCreation();
+
+                    dataOperations.SavingNameOfNewPlan();
+                }
+                else
+                {
+                    //Открывает меню управления планами
+                }
             }
             else
             {
-                //Открывает меню управления планами
+                Console.WriteLine("Доступ запрещен из мэйна");
             }
         }
 
         //Получение данных
-        private static void VerificationOrRegistration(bool accessIsAllowed)
+        private static void VerificationOrRegistration()
         {
             Console.WriteLine("У вас уже есть учетная запись? Ответьте да или нет");
 
@@ -40,14 +51,22 @@ namespace FinancialManagementProject
 
             if (answer!.ToLower().Contains('д'))
             {
-                //Тут будет запуск загрузки данных из файла
+                dataOperations.DataLoading();
 
+                verificationMenu.StartVerification();
 
-                VerificationMenu.StartVerification(out accessIsAllowed);
+                accessIsAllowed = verificationMenu.verificationComplete;
             }
             else
             {
-                RegistrationMenu.RegistryOfNewUser();
+                registrationMenu.RegistryOfNewUser();
+
+                accessIsAllowed = registrationMenu.registrationComplete;
+
+                if (accessIsAllowed)
+                {
+                    dataOperations.UserLoginAndPasswordSaving();
+                }
             }
         }
     }

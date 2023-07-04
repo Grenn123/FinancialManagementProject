@@ -6,53 +6,60 @@ using System.Threading.Tasks;
 
 namespace FinancialManagementProject
 {
-    internal class PlanCreationMenu
+    internal class PlanCreationMenu : DataOperations
     {
-        internal static void PlanCreation(string userLogin)
-        {
-            DataSaving data = new DataSaving();
+        internal static string nameOfPlan { get; private set; }
 
-            userLogin = DataSaving.userLogin;
+        const int nameOfPlanLenght = 1;
+
+        internal void PlanCreation()
+        {
             string? answer;
 
-            if (userLogin != null)
+            if (DataOperations.UserLogin != null)
             {
+            PlanCreationBegin:
+
                 Console.WriteLine("Хотите создать новый план?");
                 answer = Console.ReadLine();
 
-                Console.WriteLine("Введите название вашего нового плана:");
-                string? nameOfPlan = Console.ReadLine();
-
-                if (nameOfPlan != null)
+                if (answer!.ToLower().Contains('д'))
                 {
-                    data.SavingNameOfNewPlan(nameOfPlan);
-                }
-                else
-                {
-                    Console.WriteLine("Название плана is null");
-                }
+                    do
+                    {
+                        Console.WriteLine($"Длинна названия нового плана должна быть не менее {nameOfPlanLenght} символов." +
+                                                   $" Введите название вашего нового плана: ");
 
+                        nameOfPlan = Console.ReadLine();
 
-                //////Тестировочный блок - впоследствии будет удален//////
-                foreach (var pair in data.userPlans)
-                {
-                    Console.WriteLine($"План пользователя {pair.Key} называется {pair.Value}");
+                        if (nameOfPlan == null || nameOfPlan!.Length < nameOfPlanLenght)
+                        {
+                            Console.WriteLine("Ошибка! Название нового плана введено не верно. ");
+
+                            Console.WriteLine("Нажмите любую клавишу чтобы попытаться снова.");
+                            Console.ReadKey();
+
+                            continue;
+                        }
+                    } while (nameOfPlan!.Length < nameOfPlanLenght);
+
+                    Console.WriteLine($"Поздравляю {DataOperations.UserLogin}, " +
+                        $"вы создали план с названием {nameOfPlan}");
+
+                    goto PlanCreationBegin;
                 }
-                /////////////////////////////////////////////////////////
-
             }
             else
             {
-                Console.WriteLine("Ошибка сохранения логина пользователя");
+                BugReportSending();
             }
-
-
         }
-        private static void BugReportSending(string userLogin)
+
+        private void BugReportSending()
         {
             ErrorReports reports = new ErrorReports();
 
-            string[,] report = new string[1, 2] { { "Ошибка сохранения логина пользователя", userLogin } };
+            string report = "Ошибка сохранения нового плана пользователя - имя пользователя пусто.";
 
             reports.SendingErrorReport(report);
 

@@ -6,63 +6,61 @@ using System.Threading.Tasks;
 
 namespace FinancialManagementProject
 {
-    internal class RegistrationMenu
+    internal class RegistrationMenu : DataOperations
     {
-        internal static void RegistryOfNewUser()
+        const int loginLength = 5;
+        const int passwordLength = 10;
+        internal bool registrationComplete = false;
+
+        internal static string? registrationUserLogin;
+        internal static string? registrationUserPassword;
+
+
+        internal void RegistryOfNewUser()
         {
-            bool registrationComplete = false;
-            string? userLogin = "";
-            string? userPassword = "";
-
-            int loginLength = 5;
-            int passwordLength = 10;
-
-            DataSaving data = new DataSaving();
-
-            while (userLogin!.Length < loginLength)
+            do
             {
                 Console.WriteLine($"Длинна нового логина должна быть не менее {loginLength} символов." +
                     $" Введите ваш новый логин: ");
 
-                userLogin = Console.ReadLine();
+                registrationUserLogin = Console.ReadLine();
 
-                if (userLogin == null || userLogin!.Length < loginLength)
+                if (registrationUserLogin == null || registrationUserLogin!.Length < loginLength)
                 {
                     Console.WriteLine("Ошибка! Новый логин введен не верно.");
                 }
-            }
+            } while (registrationUserLogin!.Length < loginLength);
 
-            while (userPassword!.Length < passwordLength)
+            do
             {
                 Console.WriteLine($"Длинна нового пароля должна быть не менее {passwordLength} символов." +
                     $" Введите ваш новый пароль:");
 
-                userPassword = Console.ReadLine();
-                if (userPassword == null || userPassword!.Length < passwordLength)
+                registrationUserPassword = Console.ReadLine();
+                if (registrationUserPassword == null || registrationUserPassword!.Length < passwordLength)
                 {
                     Console.WriteLine("Ошибка! Новый пароль введен не верно.");
                 }
-            }
+            } while (registrationUserPassword!.Length < passwordLength);
 
-            if (userPassword != null & userPassword!.Length >= passwordLength)
+
+            if (registrationUserPassword != null & registrationUserPassword!.Length >= passwordLength)
             {
-                data.UserLoginAndPasswordSaving(userLogin, userPassword);
-
                 registrationComplete = true;
+                return;
             }
             else
             {
-                BugReportSending(userLogin, userPassword);
-
                 registrationComplete = false;
+                BugReportSending(registrationUserLogin, registrationUserPassword);
             }
         }
 
-        private static void BugReportSending(string userLogin, string userPassword)
+        private void BugReportSending(string userLogin, string userPassword)
         {
             ErrorReports reports = new ErrorReports();
 
-            string[,] report = new string[1, 3] { { "Ошибка меню регистрации пользователя", userLogin, userPassword } };
+            string report = $"Ошибка меню регистрации пользователя, {userLogin}";
 
             reports.SendingErrorReport(report);
 

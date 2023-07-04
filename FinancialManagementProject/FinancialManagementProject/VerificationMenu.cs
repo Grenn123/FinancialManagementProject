@@ -7,66 +7,60 @@ using FinancialManagementProject;
 
 namespace FinancialManagementProject
 {
-    internal class VerificationMenu
+    internal class VerificationMenu : DataOperations
     {
+        private static string stageOfVerification = null; //Поле для приема даннных логина или пароля
+        private const int maxOfAttepts = 3;
+        private static int availableAttempts = maxOfAttepts;
+        private static VerificationStage verificationStage = VerificationStage.Login;
 
-        private static string stageOfVerification = ""; //Поле для приема даннных логина или пароля
-
-        private static int availableAttempts = 3;       //Количество попыток на каждом этапе
-        private static int verificationStage = 1;       //Номер процедуры: 1 - логин, 2 - пароль, 3 - доступ открыт, 4 - отказ
-
+        internal bool verificationComplete;
 
         //Поля подбора формулировок
-        private static string loginOrPasswordRequest = "";
-        private static string inputCorrect = "";
-        private static string inputError = "";
-        private static string endOfAttempts = "";
-        private static bool accessCheck;
+        private static string loginOrPasswordRequest = null;
+        private static string inputCorrect = null;
+        private static string inputError = null;
+        private static string endOfAttempts = null;
 
         //Запус процедуры верификации
-        internal static bool StartVerification(out bool accessIsAllowed)
+        internal void StartVerification()
         {
-            while (verificationStage < 3)
+            while (verificationStage < VerificationStage.AccessIsAllowed)
             {
-                switch (verificationStage)
-                {
-                    case 1:
-                        stageOfVerification = DataSaving.userLogin;
-                        InputCheck(stageOfVerification);
-                        break;
-
-                    case 2:
-                        stageOfVerification = DataSaving.userPassword;
-                        InputCheck(stageOfVerification);
-                        break;
-                }
+                InputCheck();
             }
 
-            return verificationStage == 3
-                            ? accessIsAllowed = true
-                            : accessIsAllowed = false;
+            switch (verificationStage)
+            {
+                case VerificationStage.AccessIsAllowed:
+                    verificationComplete = true;
+                    break;
+
+                case VerificationStage.AccessDenied:
+                    verificationComplete = false;
+                    break;
+            }
         }
 
-
         //Процесс сравнения значений
-        private static int InputCheck(string stageOfVerification)
+        private void InputCheck()
         {
-            string? userInput = "";
-
-            SelectionOfWording(stageOfVerification);
+            string userInput;
 
             while (availableAttempts > 0)
             {
+                SelectionOfWording();
+
                 Console.WriteLine(loginOrPasswordRequest);
                 userInput = Console.ReadLine();
-
 
                 if (stageOfVerification == userInput)
                 {
                     Console.WriteLine(inputCorrect);
-                    availableAttempts = 3;
+                    availableAttempts = maxOfAttepts;
 
-                    return verificationStage = verificationStage + 1;
+                    verificationStage++;
+                    break;
                 }
                 else
                 {
@@ -76,43 +70,52 @@ namespace FinancialManagementProject
                     {
                         Console.WriteLine(inputError);
                     }
-
-                    return verificationStage;
                 }
             }
 
             if (availableAttempts <= 0)
             {
                 Console.WriteLine(endOfAttempts);
-                verificationStage = 4;
+                verificationStage = VerificationStage.AccessDenied;
             }
-
-            return verificationStage;
         }
 
         //Подбор формулировок
-        private static void SelectionOfWording(string stageOfVerification)
+        private void SelectionOfWording()
         {
             switch (verificationStage)
             {
-                case 1:
+                case VerificationStage.Login:
                     loginOrPasswordRequest = "Введите ваш логин:";
+                    stageOfVerification = DataOperations.UserLogin;
                     inputCorrect = $"Здравствуйте, {stageOfVerification}.";
                     inputError = $"Такого логина не существует. Осталось попыток {availableAttempts - 1}.";
                     endOfAttempts = "Такого логина не существует. Количество попыток исчерпано.";
                     break;
 
-                case 2:
+                case VerificationStage.Password:
                     loginOrPasswordRequest = "Введите ваш пароль:";
+                    stageOfVerification = DataOperations.UserPassword;
                     inputCorrect = "Все данные верны. Добро пожаловать.";
                     inputError = $"Пароль не подходит. Осталось попыток {availableAttempts - 1}.";
                     endOfAttempts = "Ни один из введенных паролей не подходит. Количество попыток исчерпано.";
                     break;
 
                 default:
-                    Console.WriteLine("Что-то пошло  не так в подборе фоормулировок");
+                    Console.WriteLine("Что-то пошло  не так в подборе формулировок");
+                    BugReportSending();
                     break;
             }
+        }
+        private void BugReportSending()
+        {
+            ErrorReports reports = new ErrorReports();
+
+            string report = $"Ошибка меню регистрации пользователя, {DataOperations.UserLogin}";
+
+            reports.SendingErrorReport(report);
+
+            Console.WriteLine("Сбой процедуры регистрации. Данные об ошибке были направлены в технический отдел.");
         }
     }
 }
