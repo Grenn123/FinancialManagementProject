@@ -30,9 +30,9 @@ namespace FinancialManagementProject
         }
 
         internal void UserLoginAndPasswordSaving()
-        {
+        {            
             UserLogin = RegistrationMenu.registrationUserLogin;
-            UserPassword = RegistrationMenu.UserPassword;
+            UserPassword = RegistrationMenu.registrationUserPassword;
 
             GenerateUserId();
 
@@ -49,6 +49,15 @@ namespace FinancialManagementProject
         private void GenerateUserId()
         {
             UserId = Guid.NewGuid().ToString();
+        }
+
+        internal void ShowAllPlansOfUser()
+        {
+            Console.WriteLine($"Список всех планов пользователя {UserLogin}");
+            foreach (var plan in userPlans)
+            {
+                Console.WriteLine(plan.Value);
+            }
         }
     }
 }

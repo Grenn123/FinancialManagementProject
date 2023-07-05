@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace FinancialManagementProject
 {
-    internal class PlanCreationMenu : DataOperations
+    internal class PlanCreationMenu 
     {
         internal static string nameOfPlan { get; private set; }
 
         const int nameOfPlanLenght = 1;
 
-        internal void PlanCreation()
+        internal void PlanCreation(string currentLogin)
         {
             string? answer;
 
-            if (DataOperations.UserLogin != null)
+            if (currentLogin != null || currentLogin != string.Empty)
             {
-            PlanCreationBegin:
-
                 Console.WriteLine("Хотите создать новый план?");
                 answer = Console.ReadLine();
 
@@ -32,7 +30,7 @@ namespace FinancialManagementProject
 
                         nameOfPlan = Console.ReadLine();
 
-                        if (nameOfPlan == null || nameOfPlan!.Length < nameOfPlanLenght)
+                        if (nameOfPlan == null || nameOfPlan == string.Empty || nameOfPlan!.Length < nameOfPlanLenght)
                         {
                             Console.WriteLine("Ошибка! Название нового плана введено не верно. ");
 
@@ -43,10 +41,8 @@ namespace FinancialManagementProject
                         }
                     } while (nameOfPlan!.Length < nameOfPlanLenght);
 
-                    Console.WriteLine($"Поздравляю {DataOperations.UserLogin}, " +
-                        $"вы создали план с названием {nameOfPlan}");
-
-                    goto PlanCreationBegin;
+                    Console.WriteLine($"Поздравляю {currentLogin}, " +
+                        $"вы создали план с названием {nameOfPlan}");    
                 }
             }
             else

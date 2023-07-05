@@ -9,7 +9,7 @@ namespace FinancialManagementProject
 {
     internal class VerificationMenu : DataOperations
     {
-        private static string stageOfVerification = null; //Поле для приема даннных логина или пароля
+        private static string stageOfVerification; //Поле для приема даннных логина или пароля
         private const int maxOfAttepts = 3;
         private static int availableAttempts = maxOfAttepts;
         private static VerificationStage verificationStage = VerificationStage.Login;
@@ -17,14 +17,15 @@ namespace FinancialManagementProject
         internal bool verificationComplete;
 
         //Поля подбора формулировок
-        private static string loginOrPasswordRequest = null;
-        private static string inputCorrect = null;
-        private static string inputError = null;
-        private static string endOfAttempts = null;
+        private static string loginOrPasswordRequest;
+        private static string inputCorrect;
+        private static string inputError;
+        private static string endOfAttempts;
 
         //Запус процедуры верификации
         internal void StartVerification()
         {
+            string login = null;
             while (verificationStage < VerificationStage.AccessIsAllowed)
             {
                 InputCheck();
@@ -34,12 +35,14 @@ namespace FinancialManagementProject
             {
                 case VerificationStage.AccessIsAllowed:
                     verificationComplete = true;
+                    login = DataOperations.UserLogin;
                     break;
 
                 case VerificationStage.AccessDenied:
                     verificationComplete = false;
                     break;
             }
+            Program.currentLogin = login;
         }
 
         //Процесс сравнения значений
@@ -102,7 +105,7 @@ namespace FinancialManagementProject
                     break;
 
                 default:
-                    Console.WriteLine("Что-то пошло  не так в подборе формулировок");
+                    Console.WriteLine("Что-то пошло не так в подборе формулировок");
                     BugReportSending();
                     break;
             }

@@ -14,6 +14,7 @@ namespace FinancialManagementProject
         internal static PlanCreationMenu planCreationMenu = new PlanCreationMenu();
 
         private static bool accessIsAllowed;
+        internal static string currentLogin;
 
         static void Main(string[] args)
         {
@@ -26,8 +27,8 @@ namespace FinancialManagementProject
             if (accessIsAllowed)
             {
                 if (DataOperations.QuantityOfPlans == 0)
-                {
-                    planCreationMenu.PlanCreation();
+                {    
+                    planCreationMenu.PlanCreation(currentLogin);
 
                     dataOperations.SavingNameOfNewPlan();
                 }

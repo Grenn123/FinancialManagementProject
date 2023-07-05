@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace FinancialManagementProject
 {
-    internal class RegistrationMenu : DataOperations
+    internal class RegistrationMenu
     {
         const int loginLength = 5;
         const int passwordLength = 10;
-        internal bool registrationComplete = false;
+        internal bool registrationComplete;
 
         internal static string? registrationUserLogin;
         internal static string? registrationUserPassword;
@@ -25,7 +25,8 @@ namespace FinancialManagementProject
 
                 registrationUserLogin = Console.ReadLine();
 
-                if (registrationUserLogin == null || registrationUserLogin!.Length < loginLength)
+                if (registrationUserLogin == null || registrationUserLogin == string.Empty 
+                    || registrationUserLogin!.Length < loginLength)
                 {
                     Console.WriteLine("Ошибка! Новый логин введен не верно.");
                 }
@@ -37,26 +38,29 @@ namespace FinancialManagementProject
                     $" Введите ваш новый пароль:");
 
                 registrationUserPassword = Console.ReadLine();
-                if (registrationUserPassword == null || registrationUserPassword!.Length < passwordLength)
+                if (registrationUserPassword == null || registrationUserLogin == string.Empty 
+                    || registrationUserPassword!.Length < passwordLength)
                 {
                     Console.WriteLine("Ошибка! Новый пароль введен не верно.");
                 }
             } while (registrationUserPassword!.Length < passwordLength);
 
 
-            if (registrationUserPassword != null & registrationUserPassword!.Length >= passwordLength)
+            if (registrationUserPassword != null & registrationUserLogin != string.Empty 
+                & registrationUserPassword!.Length >= passwordLength)
             {
                 registrationComplete = true;
+                Program.currentLogin = registrationUserLogin;
                 return;
             }
             else
             {
                 registrationComplete = false;
-                BugReportSending(registrationUserLogin, registrationUserPassword);
+                BugReportSending(registrationUserLogin);
             }
         }
 
-        private void BugReportSending(string userLogin, string userPassword)
+        private void BugReportSending(string userLogin)
         {
             ErrorReports reports = new ErrorReports();
 
