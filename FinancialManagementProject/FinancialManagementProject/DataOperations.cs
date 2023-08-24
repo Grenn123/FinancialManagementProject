@@ -5,16 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+
 namespace FinancialManagementProject
 {
     internal class DataOperations  //abstract??
     {
-        protected static string UserLogin { get; private set; }
-        protected static string UserPassword { get; private set; }
-        internal static int QuantityOfPlans { get; private set; }
-
-        private string UserId;
-        private int indexOfLine;
+        protected string UserLogin { get; private set; }
+        protected string UserPassword { get; private set; }
+        internal int QuantityOfPlans { get; private set; }
 
 
         //Создание коллекция для хранения пар значений
@@ -30,25 +28,26 @@ namespace FinancialManagementProject
         }
 
         internal void UserLoginAndPasswordSaving()
-        {            
-            UserLogin = RegistrationMenu.registrationUserLogin;
-            UserPassword = RegistrationMenu.registrationUserPassword;
+        {
+            UserLogin = Program.registrationMenu.registrationUserLogin;
+            UserPassword = Program.registrationMenu.registrationUserPassword;
 
             GenerateUserId();
 
             userLoginAndPassword.Add(UserLogin, UserPassword);
-            indexOfLine++;
+
         }
 
         internal void SavingNameOfNewPlan()
         {
-            userPlans.Add(UserLogin, PlanCreationMenu.nameOfPlan);
+            userPlans.Add(UserLogin, Program.planCreationMenu.columnName);
             QuantityOfPlans++;
         }
 
+        //Нигде не используется
         private void GenerateUserId()
         {
-            UserId = Guid.NewGuid().ToString();
+            Program.userID = Guid.NewGuid().ToString();
         }
 
         internal void ShowAllPlansOfUser()

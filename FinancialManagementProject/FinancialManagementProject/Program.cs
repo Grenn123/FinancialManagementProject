@@ -4,10 +4,14 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+
+
 namespace FinancialManagementProject
 {
     internal class Program
     {
+        internal static string userID;
+
         internal static DataOperations dataOperations = new DataOperations();
         internal static VerificationMenu verificationMenu = new VerificationMenu();
         internal static RegistrationMenu registrationMenu = new RegistrationMenu();
@@ -18,6 +22,8 @@ namespace FinancialManagementProject
 
         static void Main(string[] args)
         {
+            //Form1 mmm = new Form1();
+
             Console.WriteLine($"Добрый день.\n");
 
             //Запуск верификации или регистрации
@@ -26,7 +32,7 @@ namespace FinancialManagementProject
 
             if (accessIsAllowed)
             {
-                if (DataOperations.QuantityOfPlans == 0)
+                if (dataOperations.QuantityOfPlans == 0)
                 {    
                     planCreationMenu.PlanCreation(currentLogin);
 
@@ -39,12 +45,12 @@ namespace FinancialManagementProject
             }
             else
             {
-                Console.WriteLine("Доступ запрещен из мэйна");
+                Console.WriteLine("Доступ запрещен из Main");
             }
         }
 
         //Получение данных
-        private static void VerificationOrRegistration()
+        public static void VerificationOrRegistration()
         {
             Console.WriteLine("У вас уже есть учетная запись? Ответьте да или нет");
 

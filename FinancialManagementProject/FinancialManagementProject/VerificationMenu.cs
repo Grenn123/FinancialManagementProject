@@ -9,23 +9,24 @@ namespace FinancialManagementProject
 {
     internal class VerificationMenu : DataOperations
     {
-        private static string stageOfVerification; //Поле для приема даннных логина или пароля
+        private string stageOfVerification; //Поле для приема даннных логина или пароля
         private const int maxOfAttepts = 3;
-        private static int availableAttempts = maxOfAttepts;
-        private static VerificationStage verificationStage = VerificationStage.Login;
+        private int availableAttempts = maxOfAttepts;
+        private VerificationStage verificationStage = VerificationStage.Login;
 
         internal bool verificationComplete;
 
         //Поля подбора формулировок
-        private static string loginOrPasswordRequest;
-        private static string inputCorrect;
-        private static string inputError;
-        private static string endOfAttempts;
+        private string loginOrPasswordRequest;
+        private string inputCorrect;
+        private string inputError;
+        private string endOfAttempts;
 
         //Запус процедуры верификации
         internal void StartVerification()
         {
             string login = null;
+
             while (verificationStage < VerificationStage.AccessIsAllowed)
             {
                 InputCheck();
@@ -35,7 +36,7 @@ namespace FinancialManagementProject
             {
                 case VerificationStage.AccessIsAllowed:
                     verificationComplete = true;
-                    login = DataOperations.UserLogin;
+                    login = UserLogin;
                     break;
 
                 case VerificationStage.AccessDenied:
@@ -90,7 +91,7 @@ namespace FinancialManagementProject
             {
                 case VerificationStage.Login:
                     loginOrPasswordRequest = "Введите ваш логин:";
-                    stageOfVerification = DataOperations.UserLogin;
+                    stageOfVerification = UserLogin;
                     inputCorrect = $"Здравствуйте, {stageOfVerification}.";
                     inputError = $"Такого логина не существует. Осталось попыток {availableAttempts - 1}.";
                     endOfAttempts = "Такого логина не существует. Количество попыток исчерпано.";
@@ -98,7 +99,7 @@ namespace FinancialManagementProject
 
                 case VerificationStage.Password:
                     loginOrPasswordRequest = "Введите ваш пароль:";
-                    stageOfVerification = DataOperations.UserPassword;
+                    stageOfVerification = UserPassword;
                     inputCorrect = "Все данные верны. Добро пожаловать.";
                     inputError = $"Пароль не подходит. Осталось попыток {availableAttempts - 1}.";
                     endOfAttempts = "Ни один из введенных паролей не подходит. Количество попыток исчерпано.";
@@ -114,7 +115,7 @@ namespace FinancialManagementProject
         {
             ErrorReports reports = new ErrorReports();
 
-            string report = $"Ошибка меню регистрации пользователя, {DataOperations.UserLogin}";
+            string report = $"Ошибка меню регистрации пользователя, {UserLogin}";
 
             reports.SendingErrorReport(report);
 

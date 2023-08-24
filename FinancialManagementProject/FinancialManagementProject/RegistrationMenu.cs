@@ -12,8 +12,8 @@ namespace FinancialManagementProject
         const int passwordLength = 10;
         internal bool registrationComplete;
 
-        internal static string? registrationUserLogin;
-        internal static string? registrationUserPassword;
+        internal string? registrationUserLogin;
+        internal string? registrationUserPassword;
 
 
         internal void RegistryOfNewUser()
@@ -25,7 +25,7 @@ namespace FinancialManagementProject
 
                 registrationUserLogin = Console.ReadLine();
 
-                if (registrationUserLogin == null || registrationUserLogin == string.Empty 
+                if (registrationUserLogin == null || registrationUserLogin == string.Empty
                     || registrationUserLogin!.Length < loginLength)
                 {
                     Console.WriteLine("Ошибка! Новый логин введен не верно.");
@@ -38,7 +38,7 @@ namespace FinancialManagementProject
                     $" Введите ваш новый пароль:");
 
                 registrationUserPassword = Console.ReadLine();
-                if (registrationUserPassword == null || registrationUserLogin == string.Empty 
+                if (registrationUserPassword == null || registrationUserLogin == string.Empty
                     || registrationUserPassword!.Length < passwordLength)
                 {
                     Console.WriteLine("Ошибка! Новый пароль введен не верно.");
@@ -46,7 +46,7 @@ namespace FinancialManagementProject
             } while (registrationUserPassword!.Length < passwordLength);
 
 
-            if (registrationUserPassword != null & registrationUserLogin != string.Empty 
+            if (registrationUserPassword != null & registrationUserLogin != string.Empty
                 & registrationUserPassword!.Length >= passwordLength)
             {
                 registrationComplete = true;

@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace FinancialManagementProject
 {
-    internal class PlanCreationMenu 
+    public class PlanCreationMenu
     {
-        internal static string nameOfPlan { get; private set; }
+        internal string columnName;
 
         const int nameOfPlanLenght = 1;
 
-        internal void PlanCreation(string currentLogin)
+        public void PlanCreation(string currentLogin)
         {
             string? answer;
 
@@ -28,9 +31,9 @@ namespace FinancialManagementProject
                         Console.WriteLine($"Длинна названия нового плана должна быть не менее {nameOfPlanLenght} символов." +
                                                    $" Введите название вашего нового плана: ");
 
-                        nameOfPlan = Console.ReadLine();
+                        columnName = Console.ReadLine();
 
-                        if (nameOfPlan == null || nameOfPlan == string.Empty || nameOfPlan!.Length < nameOfPlanLenght)
+                        if (columnName == null || columnName == string.Empty || columnName!.Length < nameOfPlanLenght)
                         {
                             Console.WriteLine("Ошибка! Название нового плана введено не верно. ");
 
@@ -39,10 +42,10 @@ namespace FinancialManagementProject
 
                             continue;
                         }
-                    } while (nameOfPlan!.Length < nameOfPlanLenght);
+                    } while (columnName!.Length < nameOfPlanLenght);
 
                     Console.WriteLine($"Поздравляю {currentLogin}, " +
-                        $"вы создали план с названием {nameOfPlan}");    
+                        $"вы создали план с названием {columnName}");
                 }
             }
             else
