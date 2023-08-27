@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SQL_FMP\SQL_FMP.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="SystemWindows.Form" />
   </ItemGroup>
 

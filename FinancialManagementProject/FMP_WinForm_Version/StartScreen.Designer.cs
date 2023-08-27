@@ -1,6 +1,6 @@
 ﻿namespace FMP_WinForm_Version
 {
-    partial class StartWindow
+    partial class StartScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -132,8 +132,9 @@
             this.button_Registration.TabIndex = 9;
             this.button_Registration.Text = "Зарегистрироваться";
             this.button_Registration.UseVisualStyleBackColor = true;
+            this.button_Registration.Click += new System.EventHandler(this.button_Registration_Click);
             // 
-            // StartWindow
+            // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -148,7 +149,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "StartWindow";
+            this.Name = "StartScreen";
             this.Text = "StartWindow";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

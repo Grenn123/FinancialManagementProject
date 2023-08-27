@@ -16,7 +16,7 @@ namespace FMP_WinForm_Version
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartWindow());
+            Application.Run(new StartScreen());
         }
     }
 }

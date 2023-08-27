@@ -12,31 +12,34 @@ using System.Configuration;
 
 namespace FMP_WinForm_Version
 {
-    public partial class StartWindow : Form
+    public partial class StartScreen : Form
     {
         private SqlConnection sqlConnection = null;
 
-        public StartWindow()
+        public StartScreen()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            sqlConnection = new SqlConnection(
-                ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
 
-            sqlConnection.Open();
+            ClearTextBoxesStartWindowForm();
 
-            //  ConfirmationOfConnectionToDatabase();
+          //  ConfirmationOfConnectionToDatabase();
 
         }
 
         private void button_Enter_Click(object sender, EventArgs e)
         {
+            sqlConnection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
+
+            sqlConnection.Open();
+
             try
             {
-                string querry = "SELECT * FROM Login_Password WHERE UserLogin = '" + textBox_Login.Text + "' AND Password = '" + textBox_Password.Text + "'";
+                string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_Login.Text + "' AND Password = '" + textBox_Password.Text + "'";
 
                 //SqlDataAdapter представляет набор команд данных и подключение к базе данных,
                 //которые используются для заполнения DataSet и обновления базы данных SQL Server.
@@ -104,12 +107,28 @@ namespace FMP_WinForm_Version
 
             if (res == DialogResult.Yes)
             {
-                this.Show();
+                Application.Exit();
             }
             else
             {
-                Application.Exit();
+                this.Show();
             }
+        }
+
+        private void button_Registration_Click(object sender, EventArgs e)
+        {
+            RegistrationScreen registrationScreen = new RegistrationScreen();
+            registrationScreen.Show();
+            this.Hide();
+
+            //Разобраться с этим вариантом
+
+            //this.Hide();
+            //var form2 = new Form2();
+            //form2.Closed += (s, args) => this.Close();
+            //form2.Show();
+
+
         }
     }
 }

@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -74,19 +74,28 @@
     <Compile Include="MainScreen.Designer.cs">
       <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartWindow.cs">
+    <Compile Include="RegistrationScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartWindow.Designer.cs">
-      <DependentUpon>StartWindow.cs</DependentUpon>
+    <Compile Include="RegistrationScreen.Designer.cs">
+      <DependentUpon>RegistrationScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartScreen.Designer.cs">
+      <DependentUpon>StartScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChekFillDTForm.resx">
       <DependentUpon>ChekFillDTForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StartWindow.resx">
-      <DependentUpon>StartWindow.cs</DependentUpon>
+    <EmbeddedResource Include="RegistrationScreen.resx">
+      <DependentUpon>RegistrationScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartScreen.resx">
+      <DependentUpon>StartScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,12 +120,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestDB.mdf">
+    <Content Include="FMP_Data.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestDB_log.ldf">
+    <Content Include="FMP_Data_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>TestDB.mdf</DependentUpon>
+      <DependentUpon>FMP_Data.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
