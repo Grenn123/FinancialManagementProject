@@ -30,7 +30,6 @@ namespace FMP_WinForm_Version
         private void RegistrationScreen_Load(object sender, EventArgs e)
         {
             conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
-
         }
 
         private void button_Registry_Click(object sender, EventArgs e)
@@ -54,23 +53,24 @@ namespace FMP_WinForm_Version
                                         conn.Open();
                                     }
 
-                                    SqlCommand sqlCommand = new SqlCommand(
-                                        "INSERT INTO [Login_Password] (Login, Password) VALUES (@Login, @Password)", conn);
+                                    using (SqlCommand sqlCommand = new SqlCommand(
+                                        "INSERT INTO [Login_Password] (Login, Password) VALUES (@Login, @Password)", conn))
+                                    {
+                                        sqlCommand.Parameters.AddWithValue("Login", textBox_NewLogin.Text);
+                                        sqlCommand.Parameters.AddWithValue("Password", textBox_NewPassword.Text);
 
-                                    sqlCommand.Parameters.AddWithValue("Login", textBox_NewLogin.Text);
-                                    sqlCommand.Parameters.AddWithValue("Password", textBox_NewPassword.Text);
+                                        textBox_NewLogin.Clear();
+                                        textBox_NewPassword.Clear();
+                                        textBox_CofirmPassword.Clear();
 
-                                    textBox_NewLogin.Clear();
-                                    textBox_NewPassword.Clear();
-                                    textBox_CofirmPassword.Clear();
+                                        sqlCommand.ExecuteNonQuery();
 
-                                    sqlCommand.ExecuteNonQuery();
+                                        MessageBox.Show("Регистрация прошла успешно");
 
-                                    MessageBox.Show("Регистрация прошла успешно");
-
-                                    StartScreen startScreen = new StartScreen();
-                                    startScreen.Show();
-                                    this.Hide();
+                                        StartScreen startScreen = new StartScreen();
+                                        startScreen.Show();
+                                        this.Hide();
+                                    }
                                 }
                                 else
                                 {
@@ -103,7 +103,7 @@ namespace FMP_WinForm_Version
             }
             finally
             {
-                if (conn.State == ConnectionState.Open)
+                if (conn != null && conn.State != ConnectionState.Closed)
                 {
                     conn.Close();
                 }
@@ -122,24 +122,25 @@ namespace FMP_WinForm_Version
 
             string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_NewLogin.Text + "'";
 
-            SqlDataAdapter adapter = new SqlDataAdapter(querry, conn);
-
-            //DataTable предоставляет кэш в памяти для данных
-            DataTable dt = new DataTable();
-
-            adapter.Fill(dt);
-
-            bool checkResult = true;
-
-            if (dt.Rows.Count > 0)
+            using (SqlDataAdapter adapter = new SqlDataAdapter(querry, conn))
             {
-                if (conn.State == ConnectionState.Open)
+                //DataTable предоставляет кэш в памяти для данных
+                DataTable dt = new DataTable();
+
+                adapter.Fill(dt);
+
+                bool checkResult = true;
+
+                if (dt.Rows.Count > 0)
                 {
-                    conn.Close();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                    checkResult = false;
                 }
-                checkResult = false;
+                return checkResult;
             }
-            return checkResult;
         }
     }
 }

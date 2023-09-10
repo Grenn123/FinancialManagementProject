@@ -91,6 +91,9 @@
     <EmbeddedResource Include="ChekFillDTForm.resx">
       <DependentUpon>ChekFillDTForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistrationScreen.resx">
       <DependentUpon>RegistrationScreen.cs</DependentUpon>
     </EmbeddedResource>

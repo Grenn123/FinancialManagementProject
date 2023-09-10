@@ -14,6 +14,8 @@ namespace FMP_WinForm_Version
 {
     public partial class StartScreen : Form
     {
+        internal static int UserID;
+
         private SqlConnection sqlConnection = null;
 
         public StartScreen()
@@ -26,52 +28,61 @@ namespace FMP_WinForm_Version
 
             ClearTextBoxesStartWindowForm();
 
-          //  ConfirmationOfConnectionToDatabase();
+            //  ConfirmationOfConnectionToDatabase();
 
         }
 
         private void button_Enter_Click(object sender, EventArgs e)
         {
-            sqlConnection = new SqlConnection(
-                ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
-
-            sqlConnection.Open();
-
-            try
+            using (sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString))
             {
-                string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_Login.Text + "' AND Password = '" + textBox_Password.Text + "'";
+                sqlConnection.Open();
 
-                //SqlDataAdapter представляет набор команд данных и подключение к базе данных,
-                //которые используются для заполнения DataSet и обновления базы данных SQL Server.
-                //Этот класс не наследуется.
-                SqlDataAdapter adapter = new SqlDataAdapter(querry, sqlConnection);
-
-                //DataTable предоставляет кэш в памяти для данных
-                DataTable dt = new DataTable();
-
-                adapter.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    MainScreen screen = new MainScreen();
-                    screen.Show();
-                    this.Hide();
+                    string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_Login.Text + "' AND Password = '" + textBox_Password.Text + "'";
+
+                    //SqlDataAdapter представляет набор команд данных и подключение к базе данных,
+                    //которые используются для заполнения DataSet и обновления базы данных SQL Server.
+                    //Этот класс не наследуется.
+                    SqlDataAdapter adapter = new SqlDataAdapter(querry, sqlConnection);
+
+                    //DataTable предоставляет кэш в памяти для данных
+                    DataTable dt = new DataTable();
+
+                    adapter.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        using (SqlCommand com = new SqlCommand(querry, sqlConnection))
+                        {
+                            StartScreen.UserID = (Int32)com.ExecuteScalar();
+
+                            MainScreen screen = new MainScreen();
+                            screen.Show();
+                            this.Hide();
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неверный логин", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        ChekFillDTFormRunning();
+
+                        ClearTextBoxesStartWindowForm();
+                    }
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Неверный логин", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    ChekFillDTFormRunning();
-
-                    ClearTextBoxesStartWindowForm();
+                    MessageBox.Show("Критическая ошибка", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Критическая ошибка", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                sqlConnection.Close();
+                finally
+                {
+                    if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    {
+                        sqlConnection.Close();
+                    }
+                }
             }
         }
 

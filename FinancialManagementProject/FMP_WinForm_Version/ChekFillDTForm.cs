@@ -25,17 +25,18 @@ namespace FMP_WinForm_Version
 
         private void SelectButton_Click(object sender, EventArgs e)
         {
-            SqlConnection sqlConnection = new SqlConnection(
-                ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
+            using (SqlConnection sqlConnection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString))
+            {
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Login_Password", sqlConnection);
 
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Login_Password", sqlConnection);
+                //Объектное представление части реальной бд отфильтрованной по выборке описанной в SqlAdapter
+                DataTable dt = new DataTable();
 
-            //Объектное представление части реальной бд отфильтрованной по выборке описанной в SqlAdapter
-            DataTable dt = new DataTable();
+                sqlDataAdapter.Fill(dt);
 
-            sqlDataAdapter.Fill(dt);
-
-            dataGridView1.DataSource = dt;
+                dataGridView1.DataSource = dt;
+            }
         }
 
     }
