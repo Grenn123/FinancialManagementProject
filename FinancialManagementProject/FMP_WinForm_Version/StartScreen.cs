@@ -14,7 +14,8 @@ namespace FMP_WinForm_Version
 {
     public partial class StartScreen : Form
     {
-        internal static int UserID;
+        internal static int ManagerID;
+        internal static int UserType;
 
         private SqlConnection sqlConnection = null;
 
@@ -25,26 +26,25 @@ namespace FMP_WinForm_Version
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             ClearTextBoxesStartWindowForm();
-
-            //  ConfirmationOfConnectionToDatabase();
-
         }
 
         private void button_Enter_Click(object sender, EventArgs e)
         {
             using (sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString))
             {
-                sqlConnection.Open();
+                if (sqlConnection == null || sqlConnection.State != ConnectionState.Open)
+                {
+                    sqlConnection.Open();
+                }
 
                 try
                 {
                     string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_Login.Text + "' AND Password = '" + textBox_Password.Text + "'";
 
-                    //SqlDataAdapter представляет набор команд данных и подключение к базе данных,
-                    //которые используются для заполнения DataSet и обновления базы данных SQL Server.
-                    //Этот класс не наследуется.
+                    ///SqlDataAdapter представляет набор команд данных и подключение к базе данных,
+                    ///которые используются для заполнения DataSet и обновления базы данных SQL Server.
+                    ///Этот класс не наследуется.
                     SqlDataAdapter adapter = new SqlDataAdapter(querry, sqlConnection);
 
                     //DataTable предоставляет кэш в памяти для данных
@@ -55,13 +55,25 @@ namespace FMP_WinForm_Version
                     {
                         using (SqlCommand com = new SqlCommand(querry, sqlConnection))
                         {
-                            StartScreen.UserID = (Int32)com.ExecuteScalar();
+                            StartScreen.ManagerID = (Int32)com.ExecuteScalar();
+                            StartScreen.UserType = (Int32)dt.Rows[0][3];
 
-                            MainScreen screen = new MainScreen();
-                            screen.Show();
                             this.Hide();
-                        }
+                            
+                            if (StartScreen.UserType == 0)
+                            {
+                                var form2 = new ManagerScreen();
+                                form2.Closed += (s, args) => this.Close();
+                                form2.Show();
+                            }
+                            else
+                            {
+                                var form2 = new AdministratorScreen();
+                                form2.Closed += (s, args) => this.Close();
+                                form2.Show();
+                            }
 
+                        }
                     }
                     else
                     {
@@ -103,14 +115,6 @@ namespace FMP_WinForm_Version
             chekFill.Show();
         }
 
-        private void ConfirmationOfConnectionToDatabase()
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                MessageBox.Show("Поключение установлено");
-            }
-        }
-
         private void button_Exit_Click(object sender, EventArgs e)
         {
             DialogResult res;
@@ -128,18 +132,10 @@ namespace FMP_WinForm_Version
 
         private void button_Registration_Click(object sender, EventArgs e)
         {
-            RegistrationScreen registrationScreen = new RegistrationScreen();
-            registrationScreen.Show();
             this.Hide();
-
-            //Разобраться с этим вариантом
-
-            //this.Hide();
-            //var form2 = new Form2();
-            //form2.Closed += (s, args) => this.Close();
-            //form2.Show();
-
-
+            var form2 = new RegistrationScreen();
+            form2.Closed += (s, args) => this.Close();
+            form2.Show();
         }
     }
 }

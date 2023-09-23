@@ -9,16 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using System.Xml.Schema;
-
 
 
 namespace FMP_WinForm_Version
 {
     public partial class RegistrationScreen : Form
     {
-        SqlConnection conn = null;
+        SqlConnection sqlConnection = null;
 
+
+        const int administrator = 1;
+        const int manager = 2;
         const int loginMinLength = 3;
         const int passwordMinLength = 5;
 
@@ -29,7 +30,7 @@ namespace FMP_WinForm_Version
 
         private void RegistrationScreen_Load(object sender, EventArgs e)
         {
-            conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
+            sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
         }
 
         private void button_Registry_Click(object sender, EventArgs e)
@@ -48,17 +49,25 @@ namespace FMP_WinForm_Version
 
                                 if (newLoginChecked)
                                 {
-                                    if (conn.State == ConnectionState.Closed)
+                                    if (sqlConnection == null || sqlConnection.State != ConnectionState.Open)
                                     {
-                                        conn.Open();
+                                        sqlConnection.Open();
                                     }
 
                                     using (SqlCommand sqlCommand = new SqlCommand(
-                                        "INSERT INTO [Login_Password] (Login, Password) VALUES (@Login, @Password)", conn))
+                                        "INSERT INTO [Login_Password] (Login, Password, Type) VALUES (@Login, @Password, @Type)", sqlConnection))
                                     {
                                         sqlCommand.Parameters.AddWithValue("Login", textBox_NewLogin.Text);
                                         sqlCommand.Parameters.AddWithValue("Password", textBox_NewPassword.Text);
 
+                                        if (checkBox_Admin.Checked)
+                                        {
+                                            sqlCommand.Parameters.AddWithValue("Type", administrator);
+                                        }
+                                        else
+                                        {
+                                            sqlCommand.Parameters.AddWithValue("Type", manager);
+                                        }
                                         textBox_NewLogin.Clear();
                                         textBox_NewPassword.Clear();
                                         textBox_CofirmPassword.Clear();
@@ -67,9 +76,7 @@ namespace FMP_WinForm_Version
 
                                         MessageBox.Show("Регистрация прошла успешно");
 
-                                        StartScreen startScreen = new StartScreen();
-                                        startScreen.Show();
-                                        this.Hide();
+                                        ExitThisForm();
                                     }
                                 }
                                 else
@@ -103,44 +110,68 @@ namespace FMP_WinForm_Version
             }
             finally
             {
-                if (conn != null && conn.State != ConnectionState.Closed)
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                 {
-                    conn.Close();
+                    sqlConnection.Close();
                 }
             }
         }
 
-
         private bool CheckLogin(string login)
         {
-            conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString);
-
-            if (conn.State == ConnectionState.Closed)
+            using (sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString))
             {
-                conn.Open();
-            }
 
-            string querry = "SELECT * FROM Login_Password WHERE Login = '" + textBox_NewLogin.Text + "'";
-
-            using (SqlDataAdapter adapter = new SqlDataAdapter(querry, conn))
-            {
-                //DataTable предоставляет кэш в памяти для данных
-                DataTable dt = new DataTable();
-
-                adapter.Fill(dt);
-
-                bool checkResult = true;
-
-                if (dt.Rows.Count > 0)
+                if (sqlConnection == null || sqlConnection.State != ConnectionState.Open)
                 {
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
-                    checkResult = false;
+                    sqlConnection.Open();
                 }
-                return checkResult;
+
+                string query = "SELECT * FROM Login_Password WHERE Login = '" + textBox_NewLogin.Text + "'";
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
+                {
+                    //DataTable предоставляет кэш в памяти для данных
+                    DataTable dt = new DataTable();
+
+                    adapter.Fill(dt);
+
+                    bool checkResult = true;
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (sqlConnection.State == ConnectionState.Open)
+                        {
+                            sqlConnection.Close();
+                        }
+                        checkResult = false;
+                    }
+                    return checkResult;
+                }
             }
+        }
+
+        private void ExitThisForm()
+        {
+            this.Hide();
+
+            if (StartScreen.UserType == 0)
+            {
+                var form2 = new StartScreen();
+                form2.Closed += (s, args) => this.Close();
+                form2.Show();
+            }
+            else
+            {
+                var form2 = new AdministratorScreen();
+                form2.Closed += (s, args) => this.Close();
+                form2.Show();
+            }
+        }
+
+        private void button_Back_Click(object sender, EventArgs e)
+        {
+            ExitThisForm();
         }
     }
 }

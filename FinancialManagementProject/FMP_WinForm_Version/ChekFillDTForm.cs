@@ -28,14 +28,20 @@ namespace FMP_WinForm_Version
             using (SqlConnection sqlConnection = new SqlConnection(
                 ConfigurationManager.ConnectionStrings["UserDataConnectionString"].ConnectionString))
             {
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Login_Password", sqlConnection);
+                if (sqlConnection == null || sqlConnection.State == ConnectionState.Closed)
+                {
+                    sqlConnection.Open();
+                }
 
-                //Объектное представление части реальной бд отфильтрованной по выборке описанной в SqlAdapter
-                DataTable dt = new DataTable();
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Login_Password", sqlConnection))
+                {
+                    //Объектное представление части реальной бд отфильтрованной по выборке описанной в SqlAdapter
+                    DataTable dt = new DataTable();
 
-                sqlDataAdapter.Fill(dt);
+                    sqlDataAdapter.Fill(dt);
 
-                dataGridView1.DataSource = dt;
+                    dataGridView1.DataSource = dt;
+                }
             }
         }
 

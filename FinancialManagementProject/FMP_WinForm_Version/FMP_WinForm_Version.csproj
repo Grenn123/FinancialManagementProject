@@ -62,17 +62,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdministratorScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdministratorScreen.Designer.cs">
+      <DependentUpon>AdministratorScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChekFillDTForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ChekFillDTForm.Designer.cs">
       <DependentUpon>ChekFillDTForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainScreen.cs">
+    <Compile Include="DeleteClientScreencs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainScreen.Designer.cs">
-      <DependentUpon>MainScreen.cs</DependentUpon>
+    <Compile Include="DeleteClientScreencs.Designer.cs">
+      <DependentUpon>DeleteClientScreencs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerScreen.Designer.cs">
+      <DependentUpon>ManagerScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewClientRegistrationScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewClientRegistrationScreen.Designer.cs">
+      <DependentUpon>NewClientRegistrationScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrationScreen.cs">
       <SubType>Form</SubType>
@@ -80,6 +98,7 @@
     <Compile Include="RegistrationScreen.Designer.cs">
       <DependentUpon>RegistrationScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReportOptions.cs" />
     <Compile Include="StartScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,11 +107,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdministratorScreen.resx">
+      <DependentUpon>AdministratorScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChekFillDTForm.resx">
       <DependentUpon>ChekFillDTForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainScreen.resx">
-      <DependentUpon>MainScreen.cs</DependentUpon>
+    <EmbeddedResource Include="DeleteClientScreencs.resx">
+      <DependentUpon>DeleteClientScreencs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerScreen.resx">
+      <DependentUpon>ManagerScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewClientRegistrationScreen.resx">
+      <DependentUpon>NewClientRegistrationScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrationScreen.resx">
       <DependentUpon>RegistrationScreen.cs</DependentUpon>
