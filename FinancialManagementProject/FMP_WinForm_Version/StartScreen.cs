@@ -63,16 +63,15 @@ namespace FMP_WinForm_Version
                             if (StartScreen.UserType == 0)
                             {
                                 var form2 = new ManagerScreen();
-                                form2.Closed += (s, args) => this.Close();
+                                form2.Closed += Form2Closed;
                                 form2.Show();
                             }
                             else
                             {
                                 var form2 = new AdministratorScreen();
-                                form2.Closed += (s, args) => this.Close();
+                                form2.Closed += Form2Closed;
                                 form2.Show();
                             }
-
                         }
                     }
                     else
@@ -132,10 +131,14 @@ namespace FMP_WinForm_Version
 
         private void button_Registration_Click(object sender, EventArgs e)
         {
-            this.Hide();
             var form2 = new RegistrationScreen();
-            form2.Closed += (s, args) => this.Close();
+            form2.Closed += Form2Closed;
             form2.Show();
+        }
+
+        private void Form2Closed(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.dataGridView_MainScreen = new System.Windows.Forms.DataGridView();
-            this.comboBox_ClientStatus_MainScreen = new System.Windows.Forms.ComboBox();
-            this.textBox_MainScreen = new System.Windows.Forms.TextBox();
+            this.comboBox_ClientStatus_ManagerScreen = new System.Windows.Forms.ComboBox();
+            this.textBox_ManagerScreen = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,22 +47,22 @@
             this.dataGridView_MainScreen.Size = new System.Drawing.Size(601, 233);
             this.dataGridView_MainScreen.TabIndex = 0;
             // 
-            // comboBox_ClientStatus_MainScreen
+            // comboBox_ClientStatus_ManagerScreen
             // 
-            this.comboBox_ClientStatus_MainScreen.FormattingEnabled = true;
-            this.comboBox_ClientStatus_MainScreen.Location = new System.Drawing.Point(76, 317);
-            this.comboBox_ClientStatus_MainScreen.Name = "comboBox_ClientStatus_MainScreen";
-            this.comboBox_ClientStatus_MainScreen.Size = new System.Drawing.Size(135, 21);
-            this.comboBox_ClientStatus_MainScreen.TabIndex = 1;
-            this.comboBox_ClientStatus_MainScreen.SelectedIndexChanged += new System.EventHandler(this.comboBox_ClientStatus_MainScreen_SelectedIndexChanged);
+            this.comboBox_ClientStatus_ManagerScreen.FormattingEnabled = true;
+            this.comboBox_ClientStatus_ManagerScreen.Location = new System.Drawing.Point(76, 317);
+            this.comboBox_ClientStatus_ManagerScreen.Name = "comboBox_ClientStatus_ManagerScreen";
+            this.comboBox_ClientStatus_ManagerScreen.Size = new System.Drawing.Size(135, 21);
+            this.comboBox_ClientStatus_ManagerScreen.TabIndex = 1;
+            this.comboBox_ClientStatus_ManagerScreen.SelectedIndexChanged += new System.EventHandler(this.comboBox_ClientStatus_MainScreen_SelectedIndexChanged);
             // 
-            // textBox_MainScreen
+            // textBox_ManagerScreen
             // 
-            this.textBox_MainScreen.Location = new System.Drawing.Point(76, 279);
-            this.textBox_MainScreen.Name = "textBox_MainScreen";
-            this.textBox_MainScreen.Size = new System.Drawing.Size(135, 20);
-            this.textBox_MainScreen.TabIndex = 2;
-            this.textBox_MainScreen.TextChanged += new System.EventHandler(this.textBox_MainScreen_TextChanged);
+            this.textBox_ManagerScreen.Location = new System.Drawing.Point(76, 279);
+            this.textBox_ManagerScreen.Name = "textBox_ManagerScreen";
+            this.textBox_ManagerScreen.Size = new System.Drawing.Size(135, 20);
+            this.textBox_ManagerScreen.TabIndex = 2;
+            this.textBox_ManagerScreen.TextChanged += new System.EventHandler(this.textBox_MainScreen_TextChanged);
             // 
             // label1
             // 
@@ -114,7 +114,7 @@
             this.button_ClientDelete.UseVisualStyleBackColor = true;
             this.button_ClientDelete.Click += new System.EventHandler(this.button_ClientDelete_Click);
             // 
-            // MainScreen
+            // ManagerScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -124,12 +124,12 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox_MainScreen);
-            this.Controls.Add(this.comboBox_ClientStatus_MainScreen);
+            this.Controls.Add(this.textBox_ManagerScreen);
+            this.Controls.Add(this.comboBox_ClientStatus_ManagerScreen);
             this.Controls.Add(this.dataGridView_MainScreen);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "MainScreen";
-            this.Text = "MainScreen";
+            this.Name = "ManagerScreen";
+            this.Text = "Manager Screen";
             this.Load += new System.EventHandler(this.MainScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_MainScreen)).EndInit();
             this.ResumeLayout(false);
@@ -140,8 +140,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView_MainScreen;
-        private System.Windows.Forms.ComboBox comboBox_ClientStatus_MainScreen;
-        private System.Windows.Forms.TextBox textBox_MainScreen;
+        private System.Windows.Forms.ComboBox comboBox_ClientStatus_ManagerScreen;
+        private System.Windows.Forms.TextBox textBox_ManagerScreen;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

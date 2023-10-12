@@ -18,9 +18,6 @@ namespace FMP_WinForm_Version
     public partial class AdministratorScreen : Form
     {
         private SqlConnection sqlConnection = null;
-        private string query;
-        private int reportNumber;
-        List<string> list = new List<string>();
 
         public AdministratorScreen()
         {
@@ -34,60 +31,41 @@ namespace FMP_WinForm_Version
 
         private void Entering_ComboBox()
         {
-            //list.Add(GetDescription(ReportOptions.Managers));
-            list.Add("Все менеджеры");
-            list.Add("Все клиенты");
-            list.Add("Клиенты по менеджерам");
-            list.Add("Все товары");
-            list.Add("Клиенты по статусам");
-            list.Add("Товары по клиентам");
+            List<AdministratorScreenListItem> list = new List<AdministratorScreenListItem>();
 
-            comboBox1.DataSource = list;
+            list.Add(new AdministratorScreenListItem("Все менеджеры", ReportOptions.Managers));
+            list.Add(new AdministratorScreenListItem("Все клиенты", ReportOptions.Clients));
+            list.Add(new AdministratorScreenListItem("Клиенты по менеджерам", ReportOptions.CLientsToManagers));
+            list.Add(new AdministratorScreenListItem("Все товары", ReportOptions.Products));
+            list.Add(new AdministratorScreenListItem("Клиенты по статусам", ReportOptions.ClientsToStatus));
+            list.Add(new AdministratorScreenListItem("Товары по клиентам", ReportOptions.ProductsToClients));
+
+            comboBox1_AdministratorScreen.DataSource = list;
         }
-
-        //internal string GetDescription(Enum enumElement)
-        //{
-        //    // Type type = enumElement.GetType();
-        //    var type = enumElement.GetType();
-
-        //    MemberInfo[] memInfo = type.GetMember(enumElement.ToString());
-        //    if (memInfo != null && memInfo.Length > 0)
-        //    {
-        //        object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-        //        if (attrs != null && attrs.Length > 0)
-        //            return ((DescriptionAttribute)attrs[0]).Description;
-        //    }
-        //    return enumElement.ToString();
-        //}
-
-
-
-
 
         private void button_Select_Click(object sender, EventArgs e)
         {
-            //var t = GetValueFromDescription<ReportOptions>(comboBox1.Text);
-            //MessageBox.Show(t.ToString());
+            string query = null;
 
-            switch (comboBox1.Text)
+            switch ((ReportOptions)comboBox1_AdministratorScreen.SelectedValue)
             {
-                case "Все менеджеры":
+                case ReportOptions.Managers:
                     query = "SELECT Login FROM Login_Password";
                     break;
-                case "Все клиенты":
+                case ReportOptions.Clients:
                     query = "SELECT Client_Name FROM Clients";
                     break;
-                case "Клиенты по менеджерам":
+                case ReportOptions.CLientsToManagers:
                     query = "SELECT Login, Client_Name FROM Login_Password AS LP JOIN Clients AS C ON LP.Manager_ID = C.Manager_ID ";
                     break;
-                case "Все товары":
+                case ReportOptions.Products:
                     query = "SELECT Product_Name FROM Products";
                     break;
-                case "Товары по клиентам":
-                    query = "SELECT C.Client_name, D.Product FROM Clients AS C JOIN Deals AS D ON C.CLient_ID = D.CLient_ID";
-                    break;
-                case "Клиенты по статусам":
+                case ReportOptions.ClientsToStatus:
                     query = "SELECT Client_Name, Client_Status FROM Clients";
+                    break;
+                case ReportOptions.ProductsToClients:
+                    query = "SELECT C.Client_name, D.Product FROM Clients AS C JOIN Deals AS D ON C.CLient_ID = D.CLient_ID";
                     break;
             }
 
@@ -97,7 +75,7 @@ namespace FMP_WinForm_Version
                 {
                     sqlConnection.Open();
                 }
-                
+
                 using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
                 {
                     DataTable dt = new DataTable();
@@ -106,45 +84,38 @@ namespace FMP_WinForm_Version
                 }
                 sqlConnection.Close();
             }
-
         }
-
-
-        //public T GetValueFromDescription<T>(string description) where T : Enum
-        //{
-        //    foreach (var field in typeof(T).GetFields())
-        //    {
-        //        if (Attribute.GetCustomAttribute(field,
-        //        typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
-        //        {
-        //            if (attribute.Description == description)
-        //                return (T)field.GetValue(null);
-        //        }
-        //        else
-        //        {
-        //            if (field.Name == description)
-        //                return (T)field.GetValue(null);
-        //        }
-        //    }
-        //    throw new ArgumentException("Not found.", nameof(description));
-        //    // Or return default(T);
-        //}
 
 
         private void button_NewClient_Click(object sender, EventArgs e)
         {
             this.Hide();
             var form2 = new NewClientRegistrationScreen();
-            form2.Closed += (s, args) => this.Close();
+            form2.Closed += Form2Closed;
             form2.Show();
         }
-
         private void button_NewMeneger_Click(object sender, EventArgs e)
         {
             this.Hide();
             var form2 = new RegistrationScreen();
-            form2.Closed += (s, args) => this.Close();
+            form2.Closed += Form2Closed;
             form2.Show();
+        }
+        private void Form2Closed(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+
+    public class AdministratorScreenListItem
+    {
+        public string Text { get; set; }
+        public ReportOptions Value { get; set; }
+
+        public AdministratorScreenListItem(string text, ReportOptions value)
+        {
+            Text = text;
+            Value = value;
         }
     }
 }

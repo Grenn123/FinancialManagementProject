@@ -74,6 +74,7 @@
     <Compile Include="ChekFillDTForm.Designer.cs">
       <DependentUpon>ChekFillDTForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientsStatuses.cs" />
     <Compile Include="DeleteClientScreencs.cs">
       <SubType>Form</SubType>
     </Compile>

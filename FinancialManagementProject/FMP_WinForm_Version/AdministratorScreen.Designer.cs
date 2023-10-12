@@ -32,7 +32,7 @@
             this.button_Select = new System.Windows.Forms.Button();
             this.button_NewClient = new System.Windows.Forms.Button();
             this.button_NewMeneger = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox1_AdministratorScreen = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AdminScreen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,13 +74,15 @@
             this.button_NewMeneger.UseVisualStyleBackColor = true;
             this.button_NewMeneger.Click += new System.EventHandler(this.button_NewMeneger_Click);
             // 
-            // comboBox1
+            // comboBox1_AdministratorScreen
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(23, 343);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(244, 21);
-            this.comboBox1.TabIndex = 1;
+            this.comboBox1_AdministratorScreen.DisplayMember = "Text";
+            this.comboBox1_AdministratorScreen.FormattingEnabled = true;
+            this.comboBox1_AdministratorScreen.Location = new System.Drawing.Point(23, 343);
+            this.comboBox1_AdministratorScreen.Name = "comboBox1_AdministratorScreen";
+            this.comboBox1_AdministratorScreen.Size = new System.Drawing.Size(244, 21);
+            this.comboBox1_AdministratorScreen.TabIndex = 1;
+            this.comboBox1_AdministratorScreen.ValueMember = "Value";
             // 
             // AdministratorScreen
             // 
@@ -90,7 +92,7 @@
             this.Controls.Add(this.button_NewMeneger);
             this.Controls.Add(this.button_NewClient);
             this.Controls.Add(this.button_Select);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox1_AdministratorScreen);
             this.Controls.Add(this.dataGridView_AdminScreen);
             this.Name = "AdministratorScreen";
             this.Text = "AdministratorScreen";
@@ -106,6 +108,6 @@
         private System.Windows.Forms.Button button_Select;
         private System.Windows.Forms.Button button_NewClient;
         private System.Windows.Forms.Button button_NewMeneger;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox1_AdministratorScreen;
     }
 }

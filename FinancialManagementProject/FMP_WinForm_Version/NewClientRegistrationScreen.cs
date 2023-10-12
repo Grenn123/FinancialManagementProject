@@ -174,27 +174,33 @@ namespace FMP_WinForm_Version
             }
         }
 
-        private void ExitThisForm()
-        {
-            this.Hide();
-
-            if (StartScreen.UserType == 0)
-            {
-                var form2 = new ManagerScreen();
-                form2.Closed += (s, args) => this.Close();
-                form2.Show();
-            }
-            else
-            {
-                var form2 = new AdministratorScreen();
-                form2.Closed += (s, args) => this.Close();
-                form2.Show();
-            }
-        }
-
         private void button_Cancel_Click(object sender, EventArgs e)
         {
             ExitThisForm();
         }
+
+        private void ExitThisForm()
+        {
+            this.Hide();
+                        
+            if (StartScreen.UserType == 0)
+            {                
+                var form2 = new ManagerScreen();
+                form2.Closed += Form2Closed;
+                form2.Show();
+            }
+            else
+            {                
+                var form2 = new AdministratorScreen();
+                form2.Closed += Form2Closed;
+                form2.Show();
+            }
+        }
+
+        private void Form2Closed(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

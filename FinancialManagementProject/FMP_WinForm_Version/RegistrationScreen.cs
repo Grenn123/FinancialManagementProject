@@ -151,6 +151,11 @@ namespace FMP_WinForm_Version
             }
         }
 
+        private void button_Back_Click(object sender, EventArgs e)
+        {
+            ExitThisForm();
+        }
+
         private void ExitThisForm()
         {
             this.Hide();
@@ -158,20 +163,21 @@ namespace FMP_WinForm_Version
             if (StartScreen.UserType == 0)
             {
                 var form2 = new StartScreen();
-                form2.Closed += (s, args) => this.Close();
+                form2.Closed += Form2Closed;
                 form2.Show();
             }
             else
             {
                 var form2 = new AdministratorScreen();
-                form2.Closed += (s, args) => this.Close();
+                form2.Closed += Form2Closed;
                 form2.Show();
             }
         }
 
-        private void button_Back_Click(object sender, EventArgs e)
+        private void Form2Closed(object sender, EventArgs e)
         {
-            ExitThisForm();
+            this.Close();
         }
+
     }
 }

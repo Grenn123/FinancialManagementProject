@@ -7,24 +7,39 @@ using System.ComponentModel;
 
 namespace FMP_WinForm_Version
 {
-    internal enum ReportOptions
+    public enum ReportOptions
     {
-        [Description("Все менеджеры")]
+        /// <summary>
+        /// "Все менеджеры"
+        /// </summary>
         Managers = 1,
 
-        [Description("Все клиенты")]
+        /// <summary>
+        /// "Все клиенты"
+        /// </summary>
         Clients = 2,
 
-        [Description("Клиенты по менеджерам")]
+        /// <summary>
+        /// "Клиенты по менеджерам"
+        /// </summary>
         CLientsToManagers = 3,
 
-        [Description("Все товары")]
+        /// <summary>
+        /// "Все товары"
+        /// </summary>
         Products = 4,
 
-        [Description("Товары по клиентам")]
+        /// <summary>
+        /// "Товары по клиентам"
+        /// </summary>
         ProductsToClients = 5,
 
-        [Description("Клиенты по статусам")]
+        /// <summary>
+        /// "Клиенты по статусам"
+        /// </summary>
         ClientsToStatus = 6
+
+
+        //При добавлении новых пунктов перечеисления необходимо добавить их в вывод комбобокса: AdministratorScreen.Entering_ComboBox()
     }
 }

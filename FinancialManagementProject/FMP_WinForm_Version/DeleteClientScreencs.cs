@@ -65,11 +65,16 @@ namespace FMP_WinForm_Version
         }
 
         private void BackToMainScreen()
-        {
+        {            
             this.Hide();
-            var mainScreen = new ManagerScreen();
-            mainScreen.Closed += (s, args) => this.Close();
-            mainScreen.Show();
+            var form2 = new ManagerScreen();
+            form2.Closed += Form2Closed;
+            form2.Show();
+        }
+
+        private void Form2Closed(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace FMP_WinForm_Version
             }
 
             (dataGridView_MainScreen.DataSource as DataTable).DefaultView.RowFilter =
-                $"Client_Name LIKE '%{textBox_MainScreen.Text}%' ";
+                $"Client_Name LIKE '%{textBox_ManagerScreen.Text}%' ";
         }
 
         private void comboBox_ClientStatus_MainScreen_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace FMP_WinForm_Version
 
                 string query = null;
 
-                switch (comboBox_ClientStatus_MainScreen.SelectedIndex)
+                switch (comboBox_ClientStatus_ManagerScreen.SelectedIndex)
                 {
                     case 0:
                         query = "";
@@ -94,29 +94,46 @@ namespace FMP_WinForm_Version
 
         private void Entering_ComboBox_ClientStatus()
         {
-            List<string> status = new List<string>
-            {
-                "Все",
-                "Обычный",
-                "Ключевой"
-            };
-            comboBox_ClientStatus_MainScreen.DataSource = status;
+            List<ManagerScreenListStatus> status = new List<ManagerScreenListStatus>();
+
+            status.Add(new ManagerScreenListStatus("Все", ClientsStatuses.all));
+            status.Add(new ManagerScreenListStatus("Обычный", ClientsStatuses.usual));
+            status.Add(new ManagerScreenListStatus("Ключевой", ClientsStatuses.vip));
+
+            comboBox_ClientStatus_ManagerScreen.DataSource = status;
         }
 
         private void button_NewClient_Click(object sender, EventArgs e)
         {
             this.Hide();
-            var newClient = new NewClientRegistrationScreen();
-            newClient.Closed += (s, args) => this.Close();
-            newClient.Show();
+            var form2 = new NewClientRegistrationScreen();
+            form2.Closed += Form2Closed;
+            form2.Show();
         }
 
         private void button_ClientDelete_Click(object sender, EventArgs e)
         {
             this.Hide();
-            var deleteClient = new DeleteClientScreen();
-            deleteClient.Closed += (s, args) => this.Close();
-            deleteClient.Show();
+            var form2 = new DeleteClientScreen();
+            form2.Closed += Form2Closed;
+            form2.Show();
+        }
+
+        private void Form2Closed(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+
+    public class ManagerScreenListStatus
+    {
+        public string Text { get; set; }
+        public ClientsStatuses Value { get; set; }
+
+        public ManagerScreenListStatus(string text, ClientsStatuses value)
+        {
+            Text = text;
+            Value = value;
         }
     }
 }
